@@ -1,0 +1,16 @@
+{% extends 'accounts/base.html'%}
+{%block content%}
+<div class="uk-container">
+	<div class="uk-position-center">
+		<h2>Congratulations! {{user.username}}</h2>
+		<p style="color:lightgreen;">your account is now active. You can now perform any of the activities on the website. For any Question kindly send us a contact message or open a support ticket for the particular problem that you may have</p>
+		<p>Use the form below to complete your user profile. You can add a profile Picture of your choice and also add some information about yourself.</p>
+		<form id="userprofile_form" method="POST" action="" enctype="multipart/form-data">
+			<legend>PROFILE FORM</legend>
+			<div class="uk-margin">
+				<input type="text" name="">
+			</div>
+		</form>
+	</div>
+</div>
+{%endblock%}

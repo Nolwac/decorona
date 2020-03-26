@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{%load staticfiles%}
+	<title>DeCorona</title>
+	<link rel="stylesheet" type="text/css" href="{%static 'uikit.min.css'%}">
+	<script type="text/javascript" src="{%static 'uikit.min.js'%}"></script>
+	<script type="text/javascript" src="{%static 'jquery-3.2.1.min.js'%}"></script>
+	<script type="text/javascript" src="{%static 'jqueryform.min.js'%}"></script>
+	<script type="text/javascript" src="{%static 'uikit-icons.min.js'%}"></script>
+	<script type="text/javascript" src="{%static 'mustache.min.js'%}"></script>
+<style type="text/css">
+	body{
+		background-color: #e3e8ee;
+	}
+
+	.sidebar-left, .sidebar-right{
+		position:fixed;
+		overflow:auto;
+		top:80px;
+		height:100vh;
+		background-color:lightgrey;
+		width:200px;
+	}
+
+</style>
+</head>
+<body>
+{%block body%}
+		<a href="#" class="uk-active" id="customer_care">customer care live chat</a>
+		<!-- the navigation bar is below -->
+		{%block navbar%}
+		{%if not request.user.is_authenticated%}
+		<a href="/accounts/login" class="uk-active" style="color: #fff;">Login</a>
+		<a href="/accounts/signup" style="color: #fff;" class="">Sign Up</a>
+		{%endif%}
+		{%if request.user.is_authenticated%}
+		<a href="/accounts/logout" style="color: #fff;">Logout</a>
+		{%endif%}
+		{%endblock%}
+		{%block chat%}
+			{%load channels_chat_tags%}
+			{%chat_box request%}
+		{%endblock%}
+{%endblock%}
+</body>
+<script type="text/javascript" src="{%static 'uikit.min.js'%}"></script>
+</html>

@@ -1,0 +1,19 @@
+<div class="uk-card uk-flex uk-flex-center uk-card-body uk-width-medium  uk-margin-auto-vertical" style="background-color:#3ac793;">
+	<form action="{{login_url}}" method="post"  enctype="multipart/form-data">
+		{% csrf_token %}
+	    <fieldset class="uk-fieldset">
+
+	        <legend class="uk-legend uk-button-text" style="color:white;">{{title}}</legend>
+	        <hr class="uk-divider-icon">
+	        <div class="uk-margin">
+	            <input class="uk-input" type="text" placeholder="username" name="username">
+	        </div>
+	        <div class="uk-margin">
+	            <input class="uk-input" type="password" placeholder="password" name="password">
+	        </div>
+	        <hr class="uk-divider-icon">
+	        <input class="uk-button uk-button-primary" type="submit" value="Submit" uk-button="">
+
+	    </fieldset>
+	</form>
+</div>

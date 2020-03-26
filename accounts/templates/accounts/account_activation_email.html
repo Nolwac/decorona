@@ -1,0 +1,17 @@
+{%load staticfiles%}
+{% autoescape off %}
+<div class="uk-container">
+	<div>
+		<div class="banner uk-position-center" style="width: 90%;min-height: 200px;">
+			<img class="uk-cover" uk-position-cover="" src="{%static 'images/light.png'%}">
+		</div>
+	</div>
+	<div class="uk-card uk-card-body">
+		Congratulation! <h3 class="uk-card-title" style="color: lightgreen;"><strong>{{user.username}}</strong></h3>
+		Please click on the link below to have your account activated.
+		http://{{domain}}{%url 'accounts:account_activation' uid64=uid token=token%}
+	</div>
+	
+</div>
+
+{% endautoescape %}
