@@ -94,7 +94,12 @@ Notice that third party plugins was used in the project -->
 </div>
 <script type="text/javascript">
 	document.addEventListener('DOMContentLoaded', function(event){
-		var host = 'ws://'+window.location.host
+		var site_url = window.location;
+		var protocol = 'ws://';
+		if (site_url.protocol == 'https:'){
+			var protocol = 'wss://';
+		}
+		var host = protocol+window.location.host
 		var user_name = document.querySelector('status').getAttribute('username');
 		//below are the functions that are neccessary for processing some stuff in the website.
 		function createElementAndMessage(type, message, append_to, id='', dialog=false){
