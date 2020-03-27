@@ -6,6 +6,11 @@ psycopg2
 djangorestframework==3.9.0
 channels==2.1.5
 channels-redis==2.3.1
+django-filter
+django-allauth
+django-rest-auth
 Pillow
 uvicorn
+django-cors-headers
+coreapi==2.3.3
 asgiref~=3.2

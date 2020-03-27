@@ -33,9 +33,14 @@ EMAIL_HOST_PASSWORD = 'nolwac15-04-1996mydjangoweb'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+ADMINS = (
+("Nolwac", "connect2globalvill@gmail.com"),
+)
 # Application definition
 
 INSTALLED_APPS = [
+     #here are my own apps
+    'accounts',
     #this one is django specific apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,16 +48,24 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #here are my own apps
-    'accounts',
     #here are third party apps
     'rest_framework',
+    'rest_framework.authtoken',
+    'allauth',
+    'allauth.account',
+    'rest_auth',
+    'django.contrib.sites',
+    'rest_auth.registration',
+    'django_filters',
+    'corsheaders',
     'AutoTags',
     'django_channels_chat',
     'channels',
+
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -120,7 +133,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend"
+)
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -142,6 +160,23 @@ django_heroku.settings(locals())
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+REST_FRAMEWORK = {
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
+
+CORS_ORIGIN_WHITELIST = (
+ 'localhost:8080',
+)
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'decorona_static', 'static')#make sure to change the static root later to hagent static root
 
@@ -149,6 +184,23 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'decorona_static', 'static
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'decorona_media', 'media')#make sure to change the media root later to hagent media root.
 
+ACCOUNT_EMAIL_CONFIRMATION_HMAC = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION ="mandatory"
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS =True
+LOGIN_REDIRECT_URL = "/"
+LOGIN_URL = '/account/login'
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = LOGIN_URL
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = LOGIN_URL
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 4
+ACCOUNT_EMAIL_SUBJECT_PREFIX = 'DeCorona'
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
+ACCOUNT_USERNAME_BLACKLIST = ['DeCorona', 'Nolwac', 'DeCovid', 'Decorona', 'decorona']
+OLD_PASSWORD_FIELD_ENABLED = True
 #There have beeen a little issue with django version so in other to avoid such problems I have decided to find a way of knowing the particular
 #django version that I am dealing with and to also do somethings with respect to them.
 #so the piece of code below is to know the django version and to be able to do comparism with them in my code.
