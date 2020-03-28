@@ -41,6 +41,7 @@ ADMINS = (
 INSTALLED_APPS = [
      #here are my own apps
     'accounts',
+    'test_kit',
     #this one is django specific apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -191,7 +192,7 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS =True
 LOGIN_REDIRECT_URL = "/"
-LOGIN_URL = '/account/login'
+LOGIN_URL = '/account/login/'
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = LOGIN_URL
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = LOGIN_URL
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 4

@@ -7,6 +7,10 @@
 	<link rel="stylesheet" type="text/css" href="{%static 'uikit.min.css'%}">
 <style type="text/css">
 </style>
+{%block included_staticfiles%}
+	<script type="text/javascript" src="{%static 'uikit.min.js'%}"></script>
+	<link rel="stylesheet" type="text/css" href="{%static 'uikit.min.css'%}">
+{%endblock%}
 </head>
 <body>
 {%block navbar%}{%endblock%}

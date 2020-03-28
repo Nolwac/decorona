@@ -84,5 +84,5 @@ class UserLogin(View):
 			user = authenticate(username=username, password=password)
 			if user is not None and user.is_active:
 				login(request, user)
-				return HttpResponseRedirect('/accounts/profile/')
+				return HttpResponseRedirect('/')
 		return HttpResponseRedirect('/')

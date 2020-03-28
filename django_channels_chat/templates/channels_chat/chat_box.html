@@ -156,12 +156,9 @@ Notice that third party plugins was used in the project -->
 					var element=createElementAndMessage('chat-one', data.message, chat_body);
 					document.getElementById("receivers_username_header").innerHTML = data.user
 				}
-				console.log(element)
 				var height=element.offsetHeight;
-				console.log(height)
 				chat_body.scrollBy(0, height)
 				document.querySelector('#chat').style.visibility='visible'
-				console.log('I scrolled now')
 			}
 			socket.onopen = function(e){
 				console.log('open', e)
@@ -171,8 +168,9 @@ Notice that third party plugins was used in the project -->
 			var endpoint1 = host + '/user/'+user_name+'/'
 			var socket1 = new WebSocket(endpoint1)
 			socket1.onmessage = function(e){
+				console.log(e.data, "is the message we are logging now");
 				data = JSON.parse(e.data)
-				if(data.message=='accepted'){
+				if(data.accepted==true){
 					createElementAndMessage('ok', data.message, document.body);
 					var chat_name = data.staff+'_and_'+user_name
 					create_chat_socket(chat_name)
@@ -180,6 +178,9 @@ Notice that third party plugins was used in the project -->
 					document.getElementById('chat').style.visibility='visible';
 					document.querySelector('.chat-body').innerHTML = '<small>This chat is just temporary and will not be saved after the chat</small><strong style="color: lightblue;">please do not refresh this page else you will lose the session</strong>'
 					console.log('chat created start chattiing with the user you want to chat with')
+				}
+				if(data.received==true){
+					createElementAndMessage('ok', data.message, document.body);
 				}
 			}
 			socket1.onopen = function(e){

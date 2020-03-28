@@ -1,3 +1,6 @@
+{%block included_staticfiles%}
+	<link rel="stylesheet" type="text/css" href="{%static 'uikit.min.css'%}">
+{%endblock%}
 <div class="uk-card uk-flex uk-flex-center uk-card-body uk-width-medium  uk-margin-auto-vertical" style="background-color:#3ac793;">
 	<form action="{{login_url}}" method="post"  enctype="multipart/form-data">
 		{% csrf_token %}

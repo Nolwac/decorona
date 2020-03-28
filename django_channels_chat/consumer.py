@@ -25,7 +25,8 @@ class UserConsumer(AsyncWebsocketConsumer):
 		self.name = self.scope['url_route']['kwargs']['username']
 		# if user.is_authenticated:
 		message = {
-		'message':'your chat request has been received'
+		'message':'your chat request has been received. Wait while we connect you to an available staff',
+		'received':True,
 		}
 		await self.send(text_data=json.dumps(message)) #sends a message to the user to wait for staff connection
 		await self.channel_layer.group_send( #sends a message to all available staff requesting for chat connection with user.
@@ -50,7 +51,8 @@ class UserConsumer(AsyncWebsocketConsumer):
 		staff = event['staff']
 		message = {
 		'message':recieved_message,
-		'staff':staff
+		'staff':staff,
+		'accepted':True,
 		}
 		await self.send(text_data=json.dumps(message))
 		print('chat accepted')
@@ -85,9 +87,9 @@ class StaffConsumer(AsyncWebsocketConsumer):
 					customer_username,{
 					'type':'chat_accepted', 
 					'staff':staff.username,
-					'message':'accepted'
+					'message':'Your chat request has been accepted by '+staff.username,
+					'accepted': True,
 					})
-				
 				print('the chat request has been fully delivered')
 	async def chat_request(self, event):
 		print('started chat request function')

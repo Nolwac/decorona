@@ -32,6 +32,7 @@ urlpatterns = [
     #----this set of urls are included urls from the other apps in the website----
     #----what this does is to make sure that the urls in the other apps are properly linked to this website url
     url(r'^account/', include(('accounts.urls','accounts'), namespace='accounts')),
+    url(r'^test_kit/', include(('test_kit.urls','test_kit'), namespace='test_kit')),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^api/account/authentication/password/reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', PasswordResetConfirmView.as_view(),
             name='password_reset_confirm'),

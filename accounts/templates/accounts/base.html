@@ -1,48 +1,164 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title>{%block title%}DeCorona{%endblock%}</title>
 	{%load staticfiles%}
-	<title>DeCorona</title>
-	<link rel="stylesheet" type="text/css" href="{%static 'uikit.min.css'%}">
-	<script type="text/javascript" src="{%static 'uikit.min.js'%}"></script>
-	<script type="text/javascript" src="{%static 'jquery-3.2.1.min.js'%}"></script>
-	<script type="text/javascript" src="{%static 'jqueryform.min.js'%}"></script>
-	<script type="text/javascript" src="{%static 'uikit-icons.min.js'%}"></script>
-	<script type="text/javascript" src="{%static 'mustache.min.js'%}"></script>
-<style type="text/css">
-	body{
-		background-color: #e3e8ee;
-	}
+	{%block websiteicon%}<link rel="icon" type="image/jpg" href="{%static 'img/logo.jpg'%}"/>{%endblock%}
+    <meta charset="utf-8">
+    {%block viewport%}<meta name="viewport" content="width=device-width, initial-scale=1.0">{%endblock%}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-language" content="en-us, en-bre"/>
+    <!-- this is specifically targetted for facebook, instagram and whatsapp -->
+    {%block metafacebook%}
+    <meta property="og:type" content="website"/>
+    <meta property="og:description" content="Your number one guide in a period of disease outbreak" />
+    <meta property="og:url" content="{{request.build_absolute_uri}}"/>
+    {%if instance.images.first%}
+    <meta property="og:image" content="{{instance.images.first.image.url}}"/>
+    {%else%}
+    <meta property="og:image" content="{%static 'img/logo.jpg'%}"/>
+    {%endif%}
+    {%endblock%}
 
-	.sidebar-left, .sidebar-right{
-		position:fixed;
-		overflow:auto;
-		top:80px;
-		height:100vh;
-		background-color:lightgrey;
-		width:200px;
-	}
-
-</style>
+    <!-- facebook and whatsapp specific ends here -->
+    {%block meta%}
+    <meta name="description" content="Your number one guide in a period of disease outbreak"/>
+    <meta name="abstract" content="Your number one guide in a period of disease outbreak"/>
+    <meta name="Keywords" content="Coronavirus covid19 covid corona virus outbreak pandemic">
+    {%endblock%}
+	{%block staticfile%}
+		<script type="text/javascript" src="{%static 'uikit-icons.min.js'%}"></script>
+		<script type="text/javascript" src="{%static 'all.js'%}"></script>
+		<link type="text/css" rel="stylesheet" href="{%static 'style.css'%}"  />
+	{%endblock%}
+	{%block included_staticfiles%}
+	{%endblock%}
 </head>
 <body>
+
 {%block body%}
-		<a href="#" class="uk-active" id="customer_care">customer care live chat</a>
-		<!-- the navigation bar is below -->
-		{%block navbar%}
-		{%if not request.user.is_authenticated%}
-		<a href="/accounts/login" class="uk-active" style="color: #fff;">Login</a>
-		<a href="/accounts/signup" style="color: #fff;" class="">Sign Up</a>
-		{%endif%}
-		{%if request.user.is_authenticated%}
-		<a href="/accounts/logout" style="color: #fff;">Logout</a>
-		{%endif%}
-		{%endblock%}
-		{%block chat%}
-			{%load channels_chat_tags%}
-			{%chat_box request%}
-		{%endblock%}
+{%block navbar%}
+<nav class="navbar">
+    <div class="nav-wrapper">
+    <!-- Navbar Logo -->
+      <div>
+      <!-- Logo Placeholder for Inlustration -->
+      <a href="#home"><img src="{%static 'img/logo.jpg'%}" class="logo" /></a>
+      </div>
+
+    <!-- Navbar Links -->
+	    <ul>
+	      <!-- <li><a href="#home">Home</a></li>
+	     <li><a href="#services">Services</a></li>     <li><a href="#about">About</a></li> -->
+	     	{%if not request.user.is_authenticated%}
+			<li><a href="/account/login">Login</a></li>
+	     	<li><a href="/account/signup" >Sign Up</a></li>
+			{%endif%}
+			{%if request.user.is_authenticated%}
+			<li><a href="/accounts/logout">Logout</a></li>
+			{%endif%}
+	    </ul>
+    </div>
+  </nav>
+{%endblock%}
+<!-- <br/> <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/> -->
+<!-- ======HERO SECTION STARTS===== -->
+
+{%block content%}
+	{%block headerhero%}
+	<div class="hero-image">
+		<div class="herorow">
+	  <div class="herocolumn heroleft">
+	    <!-- <h2>Column 1</h2>
+	    <p>Some text..</p> -->
+	  </div>
+	  <div class="herocolumn heroright">
+	    <h3 style="color: white;">CHOOSE AN OPTION</h3>
+	    <ul>
+	  	<li><a href="#"> Check symptoms</a></li>
+	  	<li><a href="#"> Check Spread rate</a></li>
+	  	<li><a href="#"> Test yourself</a></li>
+	  	{%if not request.user.is_staff%}
+	  		<li><a href="#"> Speak to a Doctor</a></li>
+	  		<li><a href="#" id="customer_care"> Live Chat</a></li>
+	  	{%endif%}
+		</ul>
+	  </div>
+	</div>
+	  <!-- <div class="hero-text">
+	    <h1 style="font-size:50px">I am John Doe</h1>
+	    <p>And I'm a Photographer</p>
+	    <button>Hire me</button>
+	  </div> -->
+	</div>
+	{%endblock%}
+
+<!-- ======  FLEX SECTION STARTS======= -->
+	{%block chat%}
+		{%load channels_chat_tags%}
+		{%chat_box request%}
+	{%endblock%}
+
+<div class="flex-container">
+  <div>40
+  	<div><p>Cases</p></div>
+  </div>
+  <div>20
+  	<div><p>Tested</p></div>
+  </div>
+  <div class="positive">10
+  	<div><p>Positive</p></div>
+  </div>  
+  <div class="dead">1
+  	<div><p>Dead</p></div>
+  </div>  
+</div>
+
+<!-- ======  FLEX SECTION ENDS ======= -->
+
+<div class="servinfo"> <p>FIND SERVICES AND INFORMATION</p></div>
+
+<div class="mycontainer">
+  <div>ABOUT COVID-19</div>
+  <div>GET ASSISTANCE</div>
+  <div>HOSPITALS</div>  
+  <div>EMERGENCY</div>  
+</div>
+
+<div class="servinfo"> <p>LIVE UPDATES AROUND THE GLOBE</p></div>
+
+<div class="lupdates">
+  <div><p>We are dedicated to serving you</p></div>
+  <div><p>We give you  the hint you need to survive any  disease outbreak</p></div>  
+</div>
+
+<br>
+
+<div class="myrow">
+  <div class="mycolumn">
+    <img src="{%static 'img/logo.jpg'%}" class="foologo">
+    <p>desars19@gmail.com</p>
+    <p>Call: 08107905404</p>
+  </div>
+  <div class="mycolumn">
+    <h3 style="color: white;">Social Handles</h3>
+    <p><a href="https://facebook.com/DeCorona19"> Facebook</a></p>
+    <p><a href="https://twitter.com/DeCorona8"> Twitter</a></p>
+    <p><a href="https://instagram.com/de.sars"> Instagram</a></p>
+  </div>
+  <div class="mycolumn">
+    <h2 style="color: white;">Take Action</h2>
+    {%if not request.user.is_staff%}
+    <p><a href="#"> Take a Test</a></p>
+    {%endif%}
+    <p><a href="#"> About Us</a></p>
+    {%if not request.user.is_authenticated%}
+    <p><a href="#"> Login</a> | <a href="#"> Register</a></p>
+    {%endif%}
+  </div>
+</div>
+{%endblock%}
 {%endblock%}
 </body>
-<script type="text/javascript" src="{%static 'uikit.min.js'%}"></script>
+<link type="text/css" rel="stylesheet" href="{%static 'style.css'%}"  />
 </html>

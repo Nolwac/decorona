@@ -3,6 +3,7 @@ from django.db import models
 import uuid # access to uuid for generating reference id
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.urls import reverse # access to creating links that can easily be referenced as an attribute
 from django.contrib.auth.models import User
 
 User._meta.local_fields[4].__dict__['_unique'] = True
