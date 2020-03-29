@@ -1,5 +1,9 @@
 
 {% extends 'accounts/base.html'%}
+{%load staticfiles%}
+{%block included_staticfiles%}
+	<link rel="stylesheet" type="text/css" href="{%static 'uikit.min.css'%}">
+{%endblock%}
 {%block navbar%}{%endblock%}
 {%block body%}
 <style type="text/css">
