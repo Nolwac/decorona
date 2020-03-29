@@ -1,0 +1,26 @@
+{% extends 'accounts/base.html'%}
+{%load staticfiles%}
+	{%block title%}{{instance.title}} Test Kit{%endblock%}
+{%block included_staticfiles%}
+	<script type="text/javascript" src="{%static 'uikit.min.js'%}"></script>
+	<link rel="stylesheet" type="text/css" href="{%static 'uikit.min.css'%}">
+	<script type="text/javascript" src="{%static 'uikit.min.js'%}"></script>
+{%endblock%}
+{%block content%}
+<style type="text/css">
+	html{background-color: lightgrey;}
+</style>
+<div class="uk-flex uk-flex-center uk-margin-medium-top">
+<div class="uk-card uk-flex uk-flex-center uk-card-body uk-width-large  uk-margin-auto-vertical" style="background-color:white;">	
+	<div>
+		<h2 class="uk-h1" style="color:#3ac793;">Congratulations!</h2>
+		<article>You have come to the end of the test captioned <strong style="color:#3ac793;">{{instance.title}}</strong></article>
+		{%if instance.description%}
+		<hr class="uk-divider-icon">
+		<div class="algorithm-description">{{instance.description}}</div>
+	{%endif%}
+	</div>
+</div>
+</div>
+{%endblock%}
+

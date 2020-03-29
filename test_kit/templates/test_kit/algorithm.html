@@ -1,0 +1,41 @@
+{% extends 'accounts/base.html'%}
+{%load staticfiles%}
+	{%block title%}{{instance.title}} Test Kit{%endblock%}
+<style type="text/css">
+</style>
+{%block included_staticfiles%}
+	<script type="text/javascript" src="{%static 'uikit.min.js'%}"></script>
+	<link rel="stylesheet" type="text/css" href="{%static 'uikit.min.css'%}">
+	<script type="text/javascript" src="{%static 'uikit.min.js'%}"></script>
+{%endblock%}
+{%block content%}
+<style type="text/css">
+	html{background-color: lightgrey;}
+</style>
+<div class="uk-flex uk-flex-center uk-margin-medium-top">
+<div class="uk-card uk-flex uk-flex-center uk-card-body uk-width-large  uk-margin-auto-vertical" style="background-color:white;">	
+	<form action="{{decision_box.get_absolute_url}}" method="post"  enctype="multipart/form-data">
+		<legend class="uk-legend uk-button-text" style="color:#3ac793;">{{instance.title}}</legend>
+		<hr class="uk-divider-icon">
+		{%if instance.description%}
+		<div class="algorithm-description">{{instance.description}}</div>
+		<hr class="uk-divider-icon">
+		{%endif%}
+		{% csrf_token %}
+	    <fieldset class="uk-fieldset">
+	        {%if decision_box.description%}<div class="decision-box-description">{{decision_box.description}}</div>{%endif%}
+	        <hr class="uk-divider-icon">
+	        {%for q in questions%}
+	        <div class="uk-margin">
+	            <input class="uk-checkbox" type="checkbox" id="question-{{q.id}}" placeholder="password" name="question{{q.id}}">
+	            <label for="question-{{forloop.counter}}">{{q.question}}</label>
+	        </div>
+	        {%endfor%}
+	        <hr class="uk-divider-icon">
+	        <input class="uk-button uk-button-primary" type="submit" value="Submit" uk-button="">
+	    </fieldset>
+	</form>
+</div>
+</div>
+{%endblock%}
+

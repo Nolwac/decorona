@@ -7,12 +7,11 @@
 {%block navbar%}{%endblock%}
 {%block body%}
 <style type="text/css">
-	body{
-		background-color: black;
-	}
+	
+	html{background-color: lightgrey;}
 </style>
 <div class="uk-flex uk-flex-center">
-<div class="uk-card uk-flex uk-flex-center uk-card-body uk-width-large  uk-margin-auto-vertical" style="background-color:white;">
+<div class="uk-card uk-flex uk-flex-center uk-card-body  uk-margin-auto-vertical" style="background-color:white;">
 	<form action="{%url 'accounts:signup' %}" method="post"  enctype="multipart/form-data">
 		{% csrf_token %}
 	    <fieldset class="uk-fieldset">

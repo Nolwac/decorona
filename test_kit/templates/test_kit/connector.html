@@ -1,0 +1,38 @@
+{% extends 'accounts/base.html'%}
+{%load staticfiles%}
+	{%block title%}{{instance.title}} Test Kit{%endblock%}
+<style type="text/css">
+</style>
+{%block included_staticfiles%}
+	<script type="text/javascript" src="{%static 'uikit.min.js'%}"></script>
+	<link rel="stylesheet" type="text/css" href="{%static 'uikit.min.css'%}">
+	<script type="text/javascript" src="{%static 'uikit.min.js'%}"></script>
+{%endblock%}
+
+{%block content%}
+<style type="text/css">
+	html{background-color: lightgrey;}
+</style>
+<div class="uk-flex uk-flex-center uk-margin-medium-top">
+<div class="uk-card uk-flex uk-flex-center uk-card-body uk-width-large  uk-margin-auto-vertical" style="background-color:white;">	
+	<form action="{{connector.get_absolute_url}}" method="post"  enctype="multipart/form-data">
+		<legend class="uk-legend uk-button-text" style="color:#3ac793;">{{instance.title}}</legend>
+		<hr class="uk-divider-icon">
+		{%if instance.description%}
+		<div class="algorithm-description">{{instance.description}}</div>
+		<hr class="uk-divider-icon">
+		{%endif%}
+		<article>{{message}}</article>
+		{% csrf_token %}
+	    <fieldset class="uk-fieldset">
+	        {%if next_operation_id%}
+	        <input type="hidden" value="{{next_operation_id}}" name="next">
+	        {%endif%}
+	        <hr class="uk-divider-icon">
+	        <input class="uk-button uk-button-primary" type="submit" value="Submit" uk-button="">
+	    </fieldset>
+	</form>
+</div>
+</div>
+{%endblock%}
+

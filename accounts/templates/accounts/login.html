@@ -10,15 +10,19 @@
 {%block included_staticfiles%}
 	<script type="text/javascript" src="{%static 'uikit.min.js'%}"></script>
 	<link rel="stylesheet" type="text/css" href="{%static 'uikit.min.css'%}">
+	
 {%endblock%}
 </head>
 <body>
-{%block navbar%}{%endblock%}
-{%block body%}
-<div style="background-color:black;position: absolute; height:100vh;width:100%;"></div>
+{%block content%}
 <div class="uk-flex uk-flex-center" style="height:100vh;width:100%;">
 {% load account_tags %}
 {%login 'DeCorona Login'%}
+<style type="text/css">
+		html{
+			background-color: lightgrey;
+		}
+	</style>
 </div>
 {%endblock%}
 </body>

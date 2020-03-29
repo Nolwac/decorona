@@ -1,26 +1,35 @@
 from django.db import models
 from django.urls import reverse # access to creating links that can easily be referenced as an attribute
 from django.contrib.auth.models import User
-from .operations import *
+from .operations import EXECUTION_CHOICES, EXECUTION_DEFINITIONS
+import json
 
 # Create your models here.
+
+class Algorithm(models.Model):
+	user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+	title = models.CharField(max_length=50, null=False, blank=False)
+	description = models.TextField()
+
+	@property
+	def get_api_url(self):
+		return reverse('test_kit_api:algorithm', kwargs={'id':self.id})
+
+	@property	
+	def get_absolute_url(self):
+		return reverse('test_kit:algorithm', kwargs={'id':self.id})
 
 class Question(models.Model):
 	user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 	question = models.TextField()
 	magnitude = models.IntegerField()
-class Operation(models.Model):
-	execution_choices = EXECUTION_CHOICES
-	description = models.TextField()
-	title = models.CharField(max_length=50, null=False, blank=False)
-	execution = models.CharField(max_length=50, null=False, blank=False)
-	execution_info = models.TextField()
 
 class DecisionBox(models.Model):
 	description = models.TextField()
 	user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 	questions = models.ManyToManyField(Question)
 	threshold = models.IntegerField(default=1)
+	algorithm = models.ForeignKey(Algorithm, null=False, on_delete=models.CASCADE)
 
 	@property
 	def get_api_url(self):
@@ -41,28 +50,28 @@ class DecisionBox(models.Model):
 		"""This method returns the next connector object in the teskit algorithm sequence after this very object if any"""
 		if self.is_threshold_true(value): #testing if the threshold condition is met
 			try: #trying to be sure that such connector even exist before attempting to return it
-				connector = self.connector_set.filter(connector_type=True)
+				connector = self.connector_set.get(connector_type=True)
 				return connector
 			except:
 				return None
 		else:
 			try: #trying to be sure that such connector even exist before attempting to return it
-				connector = self.connector_set.filter(connector_type=False)
+				connector = self.connector_set.get(connector_type=False)
 				return connector
 			except:
 				return None
 
 	def next_absolute_url(self, value):
 		"""This method returns the absolute url for the next connector object in the testkit algorithm sequence after this very object if any"""
-		if self.next(): #checking if there is a next in the first place
-			return self.next().get_absolute_url
+		if self.next(value): #checking if there is a next in the first place
+			return self.next(value).get_absolute_url
 		else:
 			return None
 
 	def next_api_url(self, value):
 		"""This method returns the api url for the next connector object in the testkit algorithm sequence after this very object if any"""
-		if self.next(): #checking if there is a next in the first place
-			return self.next().get_api_url
+		if self.next(value): #checking if there is a next in the first place
+			return self.next(value).get_api_url
 		else:
 			return None
 
@@ -73,9 +82,8 @@ class ConnectorToDecisionBox(models.Model):
 class Connector(models.Model):
 	connector_type = models.BooleanField(default=True)
 	user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-	connect_from = models.ForeignKey(DecisionBox, null=True, on_delete=models.SET_NULL)
-	connect_to = models.OneToOneField(ConnectorToDecisionBox, null=True, on_delete=models.SET_NULL)
-	operation = models.ManyToManyField(Operation)
+	connected_from = models.ForeignKey(DecisionBox, null=False, on_delete=models.CASCADE)
+	connect_to = models.OneToOneField(ConnectorToDecisionBox, null=True, blank=True, on_delete=models.SET_NULL)
 
 	@property
 	def get_api_url(self):
@@ -102,17 +110,32 @@ class Connector(models.Model):
 		else:
 			return None
 
+	def execute_first_operation(self, request):
+		"This method implements the operations that accompany a connector starting with the first operation in the list"
+		first_operation = self.operation_set.first()
+		return first_operation.execute(request)
 
-class Algorithm(models.Model):
-	user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-	title = models.CharField(max_length=50, null=False, blank=False)
+class Operation(models.Model):
+	execution_choices = EXECUTION_CHOICES
 	description = models.TextField()
-	initial_decision_box = models.ForeignKey(DecisionBox, on_delete=models.CASCADE)
+	connector = models.ForeignKey(Connector, null=False, on_delete=models.CASCADE)
+	title = models.CharField(max_length=50, null=False, blank=False)
+	execution = models.CharField(max_length=50, null=False, blank=False, choices=execution_choices)
+	execution_info = models.TextField()
 
-	@property
-	def get_api_url(self):
-		return reverse('test_kit_api:algorithm', kwargs={'id':self.id})
-
-	@property	
-	def get_absolute_url(self):
-		return reverse('test_kit:algorithm', kwargs={'id':self.id})
+	def execute(self, request):
+		"""This method implements and operation then moves to implement the next operation that follows it if any"""
+		operation_model = EXECUTION_DEFINITIONS.get(self.execution)
+		try:
+			params = json.loads(self.execution_info) #converts the execution info to a python dictionary
+		except:
+			params = None
+		if operation_model:
+			if params:
+				operation_instance = operation_model(request, self, **params)
+			else:
+				operation_instance = EXECUTION_DEFINITIONS.get("Default")(request, self)
+			return operation_instance.execute()
+		else:
+			operation_instance = EXECUTION_DEFINITIONS.get("Default")(request, self)
+			return operation_instance.execute()

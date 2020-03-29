@@ -30,6 +30,11 @@
 		<script type="text/javascript" src="{%static 'uikit-icons.min.js'%}"></script>
 		<script type="text/javascript" src="{%static 'all.js'%}"></script>
 		<link type="text/css" rel="stylesheet" href="{%static 'style.css'%}"  />
+		<style type="text/css">
+			.navbar{
+				background-color: black;
+			}
+		</style>
 	{%endblock%}
 	{%block included_staticfiles%}
 	{%endblock%}
@@ -38,12 +43,12 @@
 
 {%block body%}
 {%block navbar%}
-<nav class="navbar">
+<nav class="navbar" style="background-color: black; position: static;">
     <div class="nav-wrapper">
     <!-- Navbar Logo -->
       <div>
       <!-- Logo Placeholder for Inlustration -->
-      <a href="#home"><img src="{%static 'img/logo.jpg'%}" class="logo" /></a>
+      <a href="/"><img src="{%static 'img/logo.jpg'%}" class="logo" /></a>
       </div>
 
     <!-- Navbar Links -->
@@ -75,12 +80,10 @@
 	  <div class="herocolumn heroright">
 	    <h3 style="color: white;">CHOOSE AN OPTION</h3>
 	    <ul>
-	  	<li><a href="#"> Check symptoms</a></li>
 	  	<li><a href="#"> Check Spread rate</a></li>
-	  	<li><a href="#"> Test yourself</a></li>
+	  	<li><a href="{%url 'test_kit:algorithm' 1%}"> Take COVID-19 Test</a></li>
 	  	{%if not request.user.is_staff%}
-	  		<li><a href="#"> Speak to a Doctor</a></li>
-	  		<li><a href="#" id="customer_care"> Live Chat</a></li>
+	  		<li><a href="#" id="customer_care"> Speak to a doctor (Live Chat)</a></li>
 	  	{%endif%}
 		</ul>
 	  </div>
@@ -149,11 +152,11 @@
   <div class="mycolumn">
     <h2 style="color: white;">Take Action</h2>
     {%if not request.user.is_staff%}
-    <p><a href="#"> Take a Test</a></p>
+    <p><a href="{%url 'test_kit:algorithm' 1%}"> Use COVID-19 Test Kit</a></p>
     {%endif%}
     <p><a href="#"> About Us</a></p>
     {%if not request.user.is_authenticated%}
-    <p><a href="#"> Login</a> | <a href="#"> Register</a></p>
+    <p><a href="/account/login"> Login</a> | <a href="#"> Register</a></p>
     {%endif%}
   </div>
 </div>
