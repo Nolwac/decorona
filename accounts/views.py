@@ -37,7 +37,12 @@ def signup(request):
 			email = EmailMessage(
 				mail_caption, message, to=[to_email, other_email]
 				)
-			email.send()
+			try:
+				email.send()
+			except:
+				user.is_active = True #change this later because this activates the users account because email sending failed, meanwhile the are other reasons why email sending could fail
+				user.save()
+				return HttpResponseRedirect('/account/login/')
 			return render(request, 'accounts/registration_form_done.html', {'user':user, 'site':current_site})
 	form = SignUpForm()
 	return render(request, 'accounts/signup.html', {'form':form})

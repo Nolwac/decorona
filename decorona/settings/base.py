@@ -202,6 +202,7 @@ ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_USERNAME_BLACKLIST = ['DeCorona', 'Nolwac', 'DeCovid', 'Decorona', 'decorona']
 OLD_PASSWORD_FIELD_ENABLED = True
+SITE_ID = 1
 #There have beeen a little issue with django version so in other to avoid such problems I have decided to find a way of knowing the particular
 #django version that I am dealing with and to also do somethings with respect to them.
 #so the piece of code below is to know the django version and to be able to do comparism with them in my code.

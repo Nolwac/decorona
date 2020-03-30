@@ -368,6 +368,13 @@ body, html {
   }
 }
 
+@media screen and (max-width: 406px) {
+  .navbar ul{
+    margin-top: -60px;
+    margin-right: 5px;
+  }
+}
+
 .foologo {
   max-height: 150px;
   max-width: 150px;

@@ -24,7 +24,7 @@ class Home(View):
 
 def admin_checker(request):
 	if not request.user.is_authenticated:
-		return HttpResponseRedirect('/accounts/login/')
+		return HttpResponseRedirect('/account/login/')
 	elif not request.user.is_staff:
 		return HttpResponseRedirect('/')
 	else:
