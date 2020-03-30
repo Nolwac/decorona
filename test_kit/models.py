@@ -150,7 +150,7 @@ class Operation(models.Model):
 			if next_object_index >0:
 				break
 			if obj == self:
-				next_object_index == i + 1
+				next_object_index = i + 1
 		print(self, "is the self")
 		print(current_obj, "is the next")
 		if not current_obj == self:
