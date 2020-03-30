@@ -8,10 +8,7 @@ class Default(object):
 		self.operation = operation
 		self.connector = self.operation.connector
 		self.message = "Something went wrong while trying to execute the operation in demand, you may proceed to the next stage of the test"
-		try:
-			self.next = self.operation.get_next_by_updated()
-		except:
-			self.next = None
+		self.next = self.operation.get_next_operation_of_same_instance()
 
 	def execute(self):
 		context = {

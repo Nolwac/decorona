@@ -87,9 +87,11 @@ class ConnectorView(View):
 		next_operation_id = request.POST.get("next")
 		print(next_operation_id)
 		if next_operation_id:
+			print("the code implementation got here")
 			next_operation = get_object_or_404(Operation, id=int(next_operation_id))
-			return next_operation.execute()
+			return next_operation.execute(request)
 		else:
+			print("the code did not get where we want it to be")
 			if connector.connect_to:
 				return HttpResponseRedirect(connector.connect_to.decision_box.get_absolute_url)
 			else:

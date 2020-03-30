@@ -139,3 +139,23 @@ class Operation(models.Model):
 		else:
 			operation_instance = EXECUTION_DEFINITIONS.get("Default")(request, self)
 			return operation_instance.execute()
+
+	def get_next_operation_of_same_instance(self):
+		instance = self.connector
+		operations = instance.operation_set.all()
+		next_object_index = 0
+		current_obj = None
+		for i, obj in enumerate(operations):
+			current_obj = obj
+			if next_object_index >0:
+				break
+			if obj == self:
+				next_object_index == i + 1
+		print(self, "is the self")
+		print(current_obj, "is the next")
+		if not current_obj == self:
+			return current_obj
+		else:
+			return None
+
+		
